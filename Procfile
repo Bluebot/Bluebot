@@ -1,0 +1,1 @@
+cinch: bundle exec ./bluebot.rb
