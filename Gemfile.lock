@@ -5,6 +5,8 @@ GEM
     bson_ext (1.9.0)
       bson (~> 1.9.0)
     cinch (2.0.5)
+    cinch-identify (1.4.1)
+      cinch (~> 2.0)
     cinch-url-scraper (1.1.0)
       cinch (~> 2)
       mechanize (~> 2)
@@ -41,5 +43,6 @@ PLATFORMS
 DEPENDENCIES
   bson_ext
   cinch (~> 2.0.5)
+  cinch-identify (~> 1.4.1)
   cinch-url-scraper (~> 1.1.0)
   mongo

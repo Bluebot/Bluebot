@@ -1,4 +1,5 @@
 require "cinch"
+require "cinch/plugins/identify"
 require "cinch/plugins/urlscraper"
 require "mongo"
 
@@ -25,7 +26,14 @@ bot = Cinch::Bot.new do
     c.realname =  ENV["BLUEBOT_NICK"]     || "bluebot"
     c.user     =  ENV["BLUEBOT_NICK"]     || "bluebot"
 
-    c.plugins.plugins = [Cinch::Plugins::UrlScraper]
+    c.plugins.plugins = [Cinch::Plugins::Identify,
+                         Cinch::Plugins::UrlScraper]
+
+    c.plugins.options[Cinch::Plugins::Identify] = {
+      username: ENV["BLUEBOT_NICK"]     || "",
+      password: ENV["BLUEBOT_PASSWORD"] || "",
+      type:     :nickserv,
+    }
   end
 
   on :message, "!hello" do |m|
