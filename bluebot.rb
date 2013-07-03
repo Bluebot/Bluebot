@@ -39,6 +39,26 @@ bot = Cinch::Bot.new do
   on :message, "!hello" do |m|
     m.reply "Hello, #{m.user.nick}!"
   end
+
+  # Karma
+
+  on :message, /\A(\S+)\+\+/ do |m, what|
+    add_karma(db, what, 1)
+    m.reply "Upvoted #{what}."
+  end
+
+  on :message, /\A(\S+)--/ do |m, what|
+    add_karma(db, what, -1)
+    m.reply "Downvoted #{what}."
+  end
+
+  on :message, /\A!karma (\S+)/ do |m, what|
+    item  = db["karma"].find({"item" => what}).next
+    karma = item.nil? ? 0 : item["karma"]
+    m.reply "Karma for #{what}: #{karma}."
+  end  
+
+  # Quotes
   
   on :message, /\A!addquote (.+)/ do |m, quote|
     db["quotes"].insert({"quote" => quote})
@@ -68,7 +88,17 @@ bot = Cinch::Bot.new do
       indexes << (idx + 1) unless quotes[idx]["quote"].downcase.index(keywords.downcase).nil?
     end
     m.reply "Quotes matching \"#{keywords}\": #{indexes}."
-  end  
+  end
+end
+
+def add_karma(db, what, how_much)
+  item  = db["karma"].find({"item" => what}).next
+  if item.nil?
+    db["karma"].insert({"item" => what, "karma" => how_much})
+  else
+    karma = item["karma"].to_i + how_much
+    db["karma"].update({"item" => what}, {"$set" => {"karma" => karma}})
+  end    
 end
 
 bot.start
