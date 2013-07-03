@@ -1,1 +1,1 @@
-cinch: bundle exec ruby bluebot.rb
+bluebot: bundle exec ruby bluebot.rb
