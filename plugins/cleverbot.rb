@@ -10,7 +10,7 @@ module Cinch
     class CleverBot
       include Cinch::Plugin
 
-      match lambda { |m| /^#{m.bot.nick}[\s\p{Punct}]+(.+)/i }, use_prefix: false
+      match lambda { |m| /#{m.bot.nick}[\s\p{Punct}]+(.+)/i }, use_prefix: false
 
       def initialize(*args)
         super
