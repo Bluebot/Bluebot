@@ -17,18 +17,49 @@ end
 
 db = get_db
 
-puts "Colecciones en la base:"
-db.collection_names.each { |name| puts name }
-
 bot = Cinch::Bot.new do
   configure do |c|
-    c.server = "irc.freenode.org"
-    c.channels = ["#cinch-bots"]
+    c.server   =  ENV["BLUEBOT_SERVER"]   || "irc.freenode.org"
+    c.channels = [ENV["BLUEBOT_CHANNEL"]  || "#cinch-bots"]
+    c.nick     =  ENV["BLUEBOT_NICK"]     || "bluebot"
+    c.realname =  ENV["BLUEBOT_NICK"]     || "bluebot"
+    c.user     =  ENV["BLUEBOT_NICK"]     || "bluebot"
+
     c.plugins.plugins = [Cinch::Plugins::UrlScraper]
   end
 
-  on :message, "hello" do |m|
-    m.reply "Hello, #{m.user.nick}"
+  on :message, "!hello" do |m|
+    m.reply "Hello, #{m.user.nick}!"
+  end
+  
+  on :message, /\A!addquote (.+)/ do |m, quote|
+    db["quotes"].insert({"quote" => quote})
+    num = db["quotes"].count()
+    m.reply "Added quote \##{num}: \"#{quote}\"."
+  end
+
+  on :message, /\A!quote (\d*)/ do |m, num|
+    begin
+      quote = db["quotes"].find().to_a[num.to_i - 1]["quote"]
+      m.reply "Quote \##{num}: \"#{quote}\"."
+    rescue
+      m.reply "Quote not found."
+    end
+  end
+
+  on :message, "!lastquote" do |m|
+    quotes = db["quotes"].find().to_a
+    last   = quotes.last["quote"]
+    m.reply "Quote \##{quotes.length}: \"#{last}\"."
+  end
+
+  on :message, /\A!searchquote (.+)/ do |m, keywords|
+    indexes = []
+    quotes  = db["quotes"].find().to_a
+    quotes.each_index do |idx|
+      indexes << (idx + 1) unless quotes[idx]["quote"].downcase.index(keywords.downcase).nil?
+    end
+    m.reply "Quotes matching \"#{keywords}\": #{indexes}."
   end  
 end
 
