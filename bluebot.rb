@@ -3,6 +3,7 @@ require "mongo"
 require "cinch"
 require "cinch/plugins/identify"
 require "cinch/plugins/urlscraper"
+require "cinch/plugins/urbandictionary"
 require_relative "plugins/cleverbot"
 
 include Mongo
@@ -29,6 +30,7 @@ bot = Cinch::Bot.new do
 
     c.plugins.plugins = [Cinch::Plugins::Identify,
                          Cinch::Plugins::UrlScraper,
+                         Cinch::Plugins::UrbanDictionary,
                          Cinch::Plugins::CleverBot]
 
     c.plugins.options[Cinch::Plugins::Identify] = {

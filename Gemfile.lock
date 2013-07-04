@@ -7,6 +7,9 @@ GEM
     cinch (2.0.5)
     cinch-identify (1.4.1)
       cinch (~> 2.0)
+    cinch-urbandictionary (0.10.0)
+      cinch (~> 2.0)
+      nokogiri (>= 1.4.4)
     cinch-url-scraper (1.1.0)
       cinch (~> 2)
       mechanize (~> 2)
@@ -51,6 +54,7 @@ DEPENDENCIES
   bson_ext
   cinch (~> 2.0.5)
   cinch-identify (~> 1.4.1)
+  cinch-urbandictionary (~> 0.10.0)
   cinch-url-scraper (~> 1.1.0)
   cleverbot (~> 0.1.1)
   mongo
