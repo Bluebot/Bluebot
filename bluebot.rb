@@ -3,7 +3,8 @@ require "mongo"
 require "cinch"
 require "cinch/plugins/identify"
 require "cinch/plugins/urlscraper"
-require "cinch/plugins/urbandictionary"
+require "cinch/plugins/urbandict"
+require "cinch/plugins/wikipedia"
 require_relative "plugins/cleverbot"
 
 include Mongo
@@ -30,13 +31,23 @@ bot = Cinch::Bot.new do
 
     c.plugins.plugins = [Cinch::Plugins::Identify,
                          Cinch::Plugins::UrlScraper,
-                         Cinch::Plugins::UrbanDictionary,
+                         Cinch::Plugins::UrbanDict,
+                         Cinch::Plugins::Wikipedia,
                          Cinch::Plugins::CleverBot]
 
     c.plugins.options[Cinch::Plugins::Identify] = {
       username: ENV["BLUEBOT_NICK"]     || "",
       password: ENV["BLUEBOT_PASSWORD"] || "",
       type:     :nickserv,
+    }
+
+    c.shared[:cooldown] = {
+      config: {
+        c.channels.first => {
+          global: 1,
+          user:   1
+        }
+      }
     }
   end
 
