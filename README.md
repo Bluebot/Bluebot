@@ -16,6 +16,7 @@ Features
 - Karma system.
 - Quotes manager.
 - Ability to respond as [Cleverbot](http://www.cleverbot.com/).
+- Wikipedia and Urban Dictionary plugins.
 
 
 Supported commands
@@ -36,7 +37,7 @@ Supported commands
 * `!lastquote` prints the last quote recorded.
 * `!searchquote <keywords>` prints the quotes matching `<keywords>`.
 
-### Cleverbot integration ###
+### Respond as Cleverbot ###
 
 Talk to the bot by prefixing your messages with the bot's nickname and it shall respond as Cleverbot.
 
@@ -46,6 +47,14 @@ Example:
     <Louie> Bluebot: What's the Answer to the Ultimate Question of Life, the Universe and Everything?
   <Bluebot> Louie: 42.
 ```
+
+### Wikipedia ###
+
+* `!wiki <query>` searches Wikipedia for `<wiki>`.
+
+### Urban Dictionary ###
+
+* `!ud <query>` searches Urban Dictionary for `<query>`.
 
 
 Deployment instructions
