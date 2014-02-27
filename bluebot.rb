@@ -42,6 +42,7 @@ bot = Cinch::Bot.new do
       type:     :nickserv,
     }
 
+    # Required by the Wikipedia and Urban Dictionary plugins
     c.shared[:cooldown] = {
       config: {
         c.channels.first => {
