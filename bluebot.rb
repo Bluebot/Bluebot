@@ -135,7 +135,15 @@ bot = Cinch::Bot.new do
   end
 
   on :message, /\A!seen (\S+)/ do |m, who|
-    m.reply last_seen(db, who)
+    online_users = m.channel.users.keys.map do |user|
+      user.nick.downcase
+    end
+
+    if online_users.include?(who.downcase)
+      m.reply "#{who} is online right now, you dummy."
+    else
+      m.reply last_seen(db, who)
+    end
   end
 end
 
@@ -183,7 +191,7 @@ end
 def last_seen(db, who)
   item  = db["seen"].find({"item" => who.downcase}).next
   if item.nil?
-    "Never seen #{who}."
+    "I've never seen #{who} here."
   else
     t = Time.at(item["when"].to_i).to_s
     "#{who} was last seen on #{t}."
