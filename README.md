@@ -16,7 +16,7 @@ Features
 - Karma system.
 - Quotes manager.
 - Ability to respond as [Cleverbot](http://www.cleverbot.com/).
-- Wikipedia and Urban Dictionary plugins.
+- Wikipedia, Urban Dictionary and LMGTFY plugins.
 
 
 Supported commands
@@ -55,6 +55,10 @@ Example:
 ### Urban Dictionary ###
 
 * `!ud <query>` searches Urban Dictionary for `<query>`.
+
+### LMGTFY ###
+
+* `!google <query>` generates a Let Me Google That For You search for `<query>`.
 
 
 Deployment instructions

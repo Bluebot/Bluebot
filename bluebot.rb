@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require "uri"
 require "mongo"
 require "cinch"
 require "cinch/plugins/identify"
@@ -54,6 +55,16 @@ bot = Cinch::Bot.new do
   on :message, "!hello" do |m|
     m.reply "Hello, #{m.user.nick}!"
   end
+
+  on :message, "!help" do |m|
+    m.reply "See http://github.com/Bluebot/Bluebot for a list of supported actions."
+  end
+
+  # Let Me Google That For You
+
+  on :message, /\A!google (.+)/ do |m, what|
+    m.reply "http://lmgtfy.com/?q=#{URI::encode(what)}"
+  end  
 
   # Karma
 
