@@ -94,7 +94,29 @@ bot = Cinch::Bot.new do
       m.reply "Quotes matching \"#{keywords}\": #{indexes}."
     end
   end
+
+  # Seen
+
+  on :join do |m|
+    m.channel.users.keys.each do |user|
+      saw(db, user.nick)
+    end
+  end
+
+  on :message do |m|
+    saw(db, m.user.nick)
+  end
+
+  on :leaving do |m|
+    saw(db, m.user.nick)
+  end
+
+  on :message, /\A!seen (\S+)/ do |m, who|
+    m.reply last_seen(db, who)
+  end
 end
+
+# Quotes
 
 def get_quote(db, num)
   begin
@@ -105,6 +127,8 @@ def get_quote(db, num)
     "Quote not found."
   end
 end
+
+# Karma
 
 def get_karma(db, what)
   item  = db["karma"].find({"item" => what.downcase}).next
@@ -120,6 +144,27 @@ def add_karma(db, what, how_much)
     karma = item["karma"].to_i + how_much
     db["karma"].update({"item" => what.downcase}, {"$set" => {"karma" => karma}})
   end    
+end
+
+# Seen
+
+def saw(db, who)
+  item  = db["seen"].find({"item" => who.downcase}).next
+  if item.nil?
+    db["seen"].insert({"item" => who.downcase, "when" => Time.now.to_i})
+  else
+    db["seen"].update({"item" => who.downcase}, {"$set" => {"when" => Time.now.to_i}})
+  end    
+end
+
+def last_seen(db, who)
+  item  = db["seen"].find({"item" => who.downcase}).next
+  if item.nil?
+    "Never seen #{who}."
+  else
+    t = Time.at(item["when"].to_i).to_s
+    "#{who} was last seen on #{t}."
+  end
 end
 
 bot.start
