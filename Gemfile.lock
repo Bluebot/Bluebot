@@ -8,7 +8,7 @@ GEM
     cinch-cooldown (1.1.2)
       cinch (~> 2.0.12)
       time-lord (~> 1.0.1)
-    cinch-identify (1.4.1)
+    cinch-identify (1.5.1)
       cinch (~> 2.0)
     cinch-toolbox (1.1.2)
       nokogiri (~> 1.6.0)
@@ -66,7 +66,7 @@ PLATFORMS
 DEPENDENCIES
   bson_ext (~> 1.9.2)
   cinch (~> 2.0.12)
-  cinch-identify (~> 1.4.1)
+  cinch-identify (~> 1.5.1)
   cinch-urbandict (~> 1.0.3)
   cinch-url-scraper (~> 1.1.0)
   cinch-wikipedia (~> 1.0.3)
