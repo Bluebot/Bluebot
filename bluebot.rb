@@ -33,8 +33,10 @@ bot = Cinch::Bot.new do
     c.plugins.plugins = [Cinch::Plugins::Identify,
                          Cinch::Plugins::UrlScraper,
                          Cinch::Plugins::UrbanDict,
-                         Cinch::Plugins::Wikipedia,
-                         Cinch::Plugins::CleverBot]
+                         Cinch::Plugins::Wikipedia]
+                         # Cinch::Plugins::CleverBot]
+                         # Cleverbot plugin temporarily disabled until gem
+                         # is updated (or replaced)
 
     c.plugins.options[Cinch::Plugins::Identify] = {
       username: ENV["BLUEBOT_NICK"]     || "",
@@ -65,7 +67,7 @@ bot = Cinch::Bot.new do
 
   on :message, /\A!google (.+)/ do |m, what|
     m.reply "http://lmgtfy.com/?q=#{URI::encode(what)}"
-  end  
+  end
 
   # Karma
 
@@ -83,10 +85,10 @@ bot = Cinch::Bot.new do
 
   on :message, /\A!karma (\S+)/ do |m, what|
     m.reply get_karma(db, what)
-  end  
+  end
 
   # Quotes
-  
+
   on :message, /\A!addquote (.+)/ do |m, quote|
     db["quotes"].insert({"quote" => quote})
     num = db["quotes"].count()
@@ -174,7 +176,7 @@ def add_karma(db, what, how_much)
   else
     karma = item["karma"].to_i + how_much
     db["karma"].update({"item" => what.downcase}, {"$set" => {"karma" => karma}})
-  end    
+  end
 end
 
 # Seen
@@ -185,7 +187,7 @@ def saw(db, who)
     db["seen"].insert({"item" => who.downcase, "when" => Time.now.to_i})
   else
     db["seen"].update({"item" => who.downcase}, {"$set" => {"when" => Time.now.to_i}})
-  end    
+  end
 end
 
 def last_seen(db, who)
